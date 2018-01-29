@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  web:
+    build: ./backend/
+    command: nodemon -L
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8080:8080"
