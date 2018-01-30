@@ -1,10 +1,10 @@
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 8080;
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -40,7 +40,7 @@ var rx = [
         LastName: "Doe",
         DOB: "01/01/1981",
         Prescription: "mitodel",
-        REFILLS: 5,
+        Refills: 5,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
         Status: "prescribed",
@@ -53,7 +53,7 @@ var rx = [
         LastName: "Jane",
         DOB: "01/01/1981",
         Prescription: "advil",
-        REFILLS: 2,
+        Refills: 2,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
         Status: "Prescribed",
@@ -66,7 +66,7 @@ var rx = [
         LastName: "Doe",
         DOB: "01/01/1981",
         Prescription: "advil",
-        REFILLS: 5,
+        Refills: 5,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
         Status: "prescribed",
