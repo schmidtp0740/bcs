@@ -114,7 +114,6 @@ app.post('/rx/:ID', function(req, res){
     if((req.params.patientID && req.body.FirstName && req.body.LastName && req.body.DOB && req.body.Prescription && req.body.Refills && req.body.Doctor && req.body.Status && req.body.Timestamp && req.body.License)){
         res.send({Response: "not ok"});
     }
-
     else{
         const patientID = req.params.ID;
         const FirstName = req.body.FirstName;
@@ -151,7 +150,7 @@ app.post('/rx/:ID', function(req, res){
         //     }).catch( (err) => {
         //         console.log(err);
         //     });
-        console.log("Post Req:", req.body.data);
+        console.log("Post Req:", JSON.stringify(req.body.data));
         console.log("RX", rx);
         res.send({response: "ok"});
     }
