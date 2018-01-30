@@ -105,6 +105,8 @@ app.get('/rx/:ID', function(req, res){
             responseRX.push(r);
         }
     });
+    console.log("Get Req:", req.body.data);
+
     res.send({RX: responseRX});
 });
 
@@ -149,6 +151,8 @@ app.post('/rx/:ID', function(req, res){
         //     }).catch( (err) => {
         //         console.log(err);
         //     });
+        console.log("Post Req:", req.body.data);
+        console.log("RX", rx);
         res.send({response: "ok"});
     }
 });
