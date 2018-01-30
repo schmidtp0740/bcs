@@ -141,12 +141,12 @@ app.post('/rx/:ID', function(req, res){
             TimeStamp: Timestamp
         });
 
-        rxlog.push([{
+        rxlog.push({
             RXID: "RX" + pad(++RXint, 3).toString(),
             ID: patientID,
             Status: Status,
             TimeStamp: Timestamp
-        }]);
+        });
 
         // Go to next Doc in Folder
         // axios.post(bcsInvokeURL, {
@@ -179,13 +179,13 @@ app.patch('/rx/:ID', function(req, res){
         }
         return r;
     });
-    rxlog.push([{
+    rxlog.push({
         RXID: "RX" + pad(++RXint, 3).toString(),
         ID: patientID,
         RXID: RXID,
         Status: Status,
         TimeStamp: TimeStamp
-    }]);
+    });
     console.log("RX", JSON.stringify(rx));
     res.send({response: "ok"});
 });
