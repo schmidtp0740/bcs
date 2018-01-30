@@ -1,3 +1,4 @@
+
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -10,7 +11,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const bcsQueryURL = 'http://';
 const bcsInvokeURL= 'http://';
-
+var RXint = 3;
 var persons = [
     {
         ID: "001",
@@ -20,7 +21,6 @@ var persons = [
         Address: "999 Denver Rd, Portland, OR 98765",
         Ethnicity: "Asian",
         Phone: "111-111-1111"
-
     },
     {
         ID: "002",
@@ -109,6 +109,11 @@ app.get('/rx/:ID', function(req, res){
 });
 
 app.post('/rx/:ID', function(req, res){
+    if((req.params.patientID && req.body.FirstName && req.body.LastName && req.body.DOB && req.body.Prescription && req.body.Refills && req.body.Doctor && req.body.Status && req.body.Timestamp && req.body.License)){
+        res.send({Response: "not ok"});
+    }
+
+
     const patientID = req.params.ID;
     const FirstName = req.body.FirstName;
     const LastName = req.body.LastName;
@@ -116,10 +121,22 @@ app.post('/rx/:ID', function(req, res){
     const Prescription = req.body.Prescription;
     const Refills = req.body.Refills;
     const Doctor = req.body.Doctor;
+    const License = req.body.License;
     const Status = req.body.Status;
     const Timestamp = req.body.Timestamp;
-    const RXID = "RX001";
-
+    rx.push({
+        RXID: "RX" + pad(++RXint, 3).toString(),
+        ID: patientID,
+        FirstName: FirstName,
+        LastName: LastName,
+        DOB: DOB,
+        Prescription: Prescription,
+        Refills: Refills,
+        Doctor: Doctor,
+        License: License,
+        Status: Status,
+        TimeStamp: Timestamp
+      });
     // Go to next Doc in Folder
     // axios.post(bcsInvokeURL, {
     //     "channel": "doctororderer",
@@ -132,7 +149,6 @@ app.post('/rx/:ID', function(req, res){
     //     }).catch( (err) => {
     //         console.log(err);
     //     });
-    console.log(req.body);
     res.send({response: "ok"});
 });
 
@@ -161,3 +177,9 @@ app.get('/bcs', function(req, res){
 app.listen(port, function(){
     console.log("Listening on port: ", port);
 });
+
+function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
