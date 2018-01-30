@@ -56,7 +56,7 @@ var rx = [
         Refills: 2,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
-        Status: "Prescribed",
+        Status: "prescribed",
         TimeStamp: "deb1"
       },
       {
@@ -113,43 +113,44 @@ app.post('/rx/:ID', function(req, res){
         res.send({Response: "not ok"});
     }
 
-
-    const patientID = req.params.ID;
-    const FirstName = req.body.FirstName;
-    const LastName = req.body.LastName;
-    const DOB = req.body.DOB;
-    const Prescription = req.body.Prescription;
-    const Refills = req.body.Refills;
-    const Doctor = req.body.Doctor;
-    const License = req.body.License;
-    const Status = req.body.Status;
-    const Timestamp = req.body.Timestamp;
-    rx.push({
-        RXID: "RX" + pad(++RXint, 3).toString(),
-        ID: patientID,
-        FirstName: FirstName,
-        LastName: LastName,
-        DOB: DOB,
-        Prescription: Prescription,
-        Refills: Refills,
-        Doctor: Doctor,
-        License: License,
-        Status: Status,
-        TimeStamp: Timestamp
-      });
-    // Go to next Doc in Folder
-    // axios.post(bcsInvokeURL, {
-    //     "channel": "doctororderer",
-    //     "chaincode": "file-trace",
-    //     "chaincodeVer": "v1",
-    //     "method": "newDocument",
-    //     "args": [RXID, patientID, Firstname, LastName, TimeStamp, Doctor, Prescription, Refills, Status]
-    //    }).then((response) => {
-    //         res.send(response);
-    //     }).catch( (err) => {
-    //         console.log(err);
-    //     });
-    res.send({response: "ok"});
+    else{
+        const patientID = req.params.ID;
+        const FirstName = req.body.FirstName;
+        const LastName = req.body.LastName;
+        const DOB = req.body.DOB;
+        const Prescription = req.body.Prescription;
+        const Refills = req.body.Refills;
+        const Doctor = req.body.Doctor;
+        const License = req.body.License;
+        const Status = req.body.Status;
+        const Timestamp = req.body.Timestamp;
+        rx.push({
+            RXID: "RX" + pad(++RXint, 3).toString(),
+            ID: patientID,
+            FirstName: FirstName,
+            LastName: LastName,
+            DOB: DOB,
+            Prescription: Prescription,
+            Refills: Refills,
+            Doctor: Doctor,
+            License: License,
+            Status: Status,
+            TimeStamp: Timestamp
+        });
+        // Go to next Doc in Folder
+        // axios.post(bcsInvokeURL, {
+        //     "channel": "doctororderer",
+        //     "chaincode": "file-trace",
+        //     "chaincodeVer": "v1",
+        //     "method": "newDocument",
+        //     "args": [RXID, patientID, Firstname, LastName, TimeStamp, Doctor, Prescription, Refills, Status]
+        //    }).then((response) => {
+        //         res.send(response);
+        //     }).catch( (err) => {
+        //         console.log(err);
+        //     });
+        res.send({response: "ok"});
+    }
 });
 
 app.patch('/rx/:ID', function(req, res){
@@ -169,9 +170,16 @@ app.patch('/rx/:ID', function(req, res){
 });
 
 
+var bcsCounter = 0;
 // Check Blockchain Validity
 app.get('/bcs', function(req, res){
-
+    ++bcsCounter;
+    if(!(bcsCounter % 30)){
+        res.send({RXID: "RX001", Status: "False", Blockchain: "Doctor"});
+    }
+    else{
+        res.send({Status: "True"})
+    };
 });
 
 app.listen(port, function(){
