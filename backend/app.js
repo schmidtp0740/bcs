@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const bcsQueryURL = 'http://';
 const bcsInvokeURL= 'http://';
 var RXint = 3;
+var rxlog = [];
 var persons = [
     {
         ID: "001",
@@ -139,6 +140,14 @@ app.post('/rx/:ID', function(req, res){
             Status: Status,
             TimeStamp: Timestamp
         });
+
+        rxlog.push([{
+            RXID: "RX" + pad(++RXint, 3).toString(),
+            ID: patientID,
+            Status: Status,
+            TimeStamp: Timestamp
+        }]);
+
         // Go to next Doc in Folder
         // axios.post(bcsInvokeURL, {
         //     "channel": "doctororderer",
@@ -170,6 +179,13 @@ app.patch('/rx/:ID', function(req, res){
         }
         return r;
     });
+    rxlog.push([{
+        RXID: "RX" + pad(++RXint, 3).toString(),
+        ID: patientID,
+        RXID: RXID,
+        Status: Status,
+        TimeStamp: TimeStamp
+    }]);
     console.log("RX", JSON.stringify(rx));
     res.send({response: "ok"});
 });
@@ -187,9 +203,10 @@ app.get('/bcs', function(req, res){
     };
 });
 
+
 app.get('/rx', function(req, res){
     res.send({
-        RX: rx
+        RX: rxlog
     });
 });
 
