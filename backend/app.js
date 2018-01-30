@@ -182,6 +182,12 @@ app.get('/bcs', function(req, res){
     };
 });
 
+app.get('/rx', function(req, res){
+    res.send({
+        RX: rx
+    });
+})
+
 app.listen(port, function(){
     console.log("Listening on port: ", port);
 });
