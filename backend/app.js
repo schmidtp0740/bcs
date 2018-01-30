@@ -69,7 +69,7 @@ var rx = [
         Refills: 5,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
-        Status: "prescribed",
+        Status: "filled",
         TimeStamp: "dec1"
       }
 ];
