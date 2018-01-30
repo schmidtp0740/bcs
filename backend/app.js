@@ -150,7 +150,7 @@ app.post('/rx/:ID', function(req, res){
         //     }).catch( (err) => {
         //         console.log(err);
         //     });
-        console.log("Post Req:", JSON.stringify(req.body.data));
+        console.log("Post Req:", JSON.stringify(req.body));
         console.log("RX", rx);
         res.send({response: "ok"});
     }
