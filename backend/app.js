@@ -105,7 +105,8 @@ app.get('/rx/:ID', function(req, res){
             responseRX.push(r);
         }
     });
-    console.log("Get Req:", JSON.stringify(req.body));
+    console.log("Get Req.id", req.params.ID);
+    console.log("Get Req:", JSON.stringify(responseRX));
 
     res.send({RX: responseRX});
 });
