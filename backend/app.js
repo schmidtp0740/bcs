@@ -148,7 +148,7 @@ app.post('/rx/:ID', function(req, res){
 
 
         // Go to next Doc in Folder
-        axios.post('http://129.146.106.151:4001/bcsgw/rest/v1/transaction/invocation', {
+        axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
             "channel": "doctorpharmacist",
             "chaincode": "file-trace",
             "chaincodeVer": "v1",
