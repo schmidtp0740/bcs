@@ -231,7 +231,7 @@ var bcsCounter = 0;
 // Check Blockchain Validity
 app.get('/bcs', function(req, res){
     ++bcsCounter;
-    if(!(bcsCounter % 3000)){
+    if(!(bcsCounter % 300)){
         res.send({RXID: "RX001", Status: "False", Blockchain: "Doctor"});
     }
     else{
