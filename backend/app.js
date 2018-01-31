@@ -113,22 +113,20 @@ app.get('/rx/:ID', function(req, res){
 });
 
 app.post('/rx/:ID', function(req, res){
-    if((req.params.patientID && req.body.FirstName && req.body.LastName && req.body.DOB && req.body.Prescription && req.body.Refills && req.body.Doctor && req.body.Status && req.body.Timestamp && req.body.License)){
-        res.send({Response: "not ok"});
-    }
-    else{
+    
         const patientID = req.params.ID;
         const FirstName = req.body.FirstName;
         const LastName = req.body.LastName;
         const DOB = req.body.DOB;
         const Prescription = req.body.Prescription;
-        const Refills = req.body.Refills;
+        const Refills = req.body.Refills.toString();
         const Doctor = req.body.Doctor;
         const License = req.body.License;
         const Status = req.body.Status;
         const Timestamp = req.body.Timestamp;
+        const RXID = "RX" + pad(++RXint, 3).toString();
         rx.push({
-            RXID: "RX" + pad(++RXint, 3).toString(),
+            RXID: RXID,
             ID: patientID,
             FirstName: FirstName,
             LastName: LastName,
@@ -142,29 +140,36 @@ app.post('/rx/:ID', function(req, res){
         });
 
         rxlog.push({
-            RXID: "RX" + pad(++RXint, 3).toString(),
+            RXID: RXID,
             ID: patientID,
             Status: Status,
             TimeStamp: Timestamp
         });
 
+
         // Go to next Doc in Folder
-        // axios.post(bcsInvokeURL, {
-        //     "channel": "doctororderer",
-        //     "chaincode": "file-trace",
-        //     "chaincodeVer": "v1",
-        //     "method": "newDocument",
-        //     "args": [RXID, patientID, Firstname, LastName, TimeStamp, Doctor, Prescription, Refills, Status]
-        //    }).then((response) => {
-        //         res.send(response);
-        //     }).catch( (err) => {
-        //         console.log(err);
-        //     });
-        console.log("Post Req: ", JSON.stringify(req.params));
-        console.log("Post Req:", JSON.stringify(req.body));
-        console.log("RX", rx);
-        res.send({response: "ok"});
-    }
+        axios.post('http://129.146.106.151:4001/bcsgw/rest/v1/transaction/invocation', {
+            "channel": "doctorpharmacist",
+            "chaincode": "file-trace",
+            "chaincodeVer": "v1",
+            "method": "newDocument",
+            "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
+           })
+           .then(function (r) {
+               console.log("response ok");
+               console.log("response", r.data);
+                res.send({response: "ok"});
+            })
+            .catch( function (err){
+                res.send({response: "not ok"});
+                console.log(err);
+            });
+
+        //console.log("Post Req: ", JSON.stringify(req.params));
+        //console.log("Post Req:", JSON.stringify(req.body));
+        //console.log("RX", rx);
+        //res.send({response: "ok"});
+    
 });
 
 app.patch('/rx/:ID', function(req, res){
@@ -172,13 +177,31 @@ app.patch('/rx/:ID', function(req, res){
     const RXID = req.body.RXID; 
     const Status = req.body.Status;
     const TimeStamp = req.body.TimeStamp;
+    var args = [];
     rx = rx.map((r)=>{
         if(r.RXID == RXID){
             r.Status = Status;
             r.TimeStamp = TimeStamp;
+            
+            args.push(r.RXID);
+            console.log("RXID", r.RXID);
+            args.push(r.ID);
+            args.push(r.FirstName);
+            args.push(r.LastName);
+            args.push(r.TimeStamp);
+            args.push(r.Doctor);
+            args.push(r.Prescription);
+            args.push(r.Refills.toString());
+            
+            args.push(r.Status);
+            console.log(args);
+
         }
         return r;
     });
+
+    
+
     rxlog.push({
         RXID: "RX" + pad(++RXint, 3).toString(),
         ID: patientID,
@@ -186,7 +209,20 @@ app.patch('/rx/:ID', function(req, res){
         Status: Status,
         TimeStamp: TimeStamp
     });
-    console.log("RX", JSON.stringify(rx));
+    console.log(args);
+    axios.post('http://129.146.106.151:5001/bcsgw/rest/v1/transaction/invocation', {
+            "channel": "doctorpharmacist",
+            "chaincode": "file-trace",
+            "chaincodeVer": "v1",
+            "method": "modifyDocument",
+            "args": args
+           }).then((response) => {
+               console.log(response.data);
+            //res.send({response: "ok"});
+            }).catch( (err) => {
+                //res.send({response: "not ok"});
+                console.log(err);
+            });
     res.send({response: "ok"});
 });
 
@@ -209,6 +245,24 @@ app.get('/rx', function(req, res){
         RX: rxlog
     });
 });
+
+app.get('/doctorRX', function(req, res){
+    rx.forEach((r)=>{
+        axios.post('http://129.146.106.151:4001/bcsgw/rest/v1/transaction/query', {
+            "channel": "doctorpharmacist",
+            "chaincode": "file-trace",
+            "chaincodeVer": "v1",
+            "method": "modifyDocument",
+            "args": r.RXID
+        }).then((response)=>{
+            rxtemp.push(response);
+        }).catch((err)=>{
+            rxtemp.push(response);
+            console.log("err", err);
+        });
+    });
+    res.send(rxtemp);
+})
 
 app.listen(port, function(){
     console.log("Listening on port: ", port);
