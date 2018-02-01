@@ -8,7 +8,7 @@ const port = process.env.PORT || 8080;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+var blockchainstatus = true;
 const bcsQueryURL = 'http://';
 const bcsInvokeURL= 'http://';
 var RXint = 3;
@@ -230,8 +230,8 @@ app.patch('/rx/:ID', function(req, res){
 var bcsCounter = 0;
 // Check Blockchain Validity
 app.get('/bcs', function(req, res){
-    ++bcsCounter;
-    if(!(bcsCounter % 300)){
+    
+    if(blockchainstatus == false){
         res.send({RXID: "RX001", Status: "False", Blockchain: "Doctor"});
     }
     else{
@@ -245,7 +245,14 @@ app.get('/rx', function(req, res){
         RX: rxlog
     });
 });
-
+app.get('/hack', function(req,res){
+    res.send({});
+    if(blockchainstatus){
+        blockchainstatus = false;
+    }else{
+        blockchainstatus = true
+    }
+});
 app.get('/doctorRX', function(req, res){
     rx.forEach((r)=>{
         axios.post('http://129.146.106.151:4001/bcsgw/rest/v1/transaction/query', {
