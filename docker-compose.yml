@@ -1,10 +1,19 @@
 version: "2"
 
 services:
-  web:
+  backend:
     build: ./backend/
     command: nodemon -L
     volumes:
       - ./backend:/code
     ports:
       - "8080:8080"
+  console:
+    build: ./Dark_Chain/
+    command: npm start
+    volumes:
+      - ./Dark_Chain:/code
+    ports:
+      - "80:3000"
+    depends_on:
+      - backend
