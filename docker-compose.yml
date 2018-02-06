@@ -12,8 +12,18 @@ services:
     build: ./Dark_Chain/
     command: npm start
     volumes:
-      - ./Dark_Chain:/code
+      - ./Dark_Chain:/app1
     ports:
       - "80:3000"
     depends_on:
       - backend
+  portals:
+    build: ./HealthCareBlockChainFrontEnd/
+    command: npm start
+    volumes: 
+      - ./HealthCareBlockChainFrontEnd:/app2
+    ports:
+      - "81:3000"
+    depends_on:
+      - backend
+    
