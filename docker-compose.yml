@@ -1,29 +1,31 @@
-version: "2"
+version: "3"
 
 services:
   backend:
+    container_name: backend
     build: ./backend/
     command: nodemon -L
-    volumes:
-      - ./backend:/code
     ports:
       - "8080:8080"
   console:
+    container_name: console
     build: ./Dark_Chain/
     command: npm start
-    volumes:
-      - ./Dark_Chain:/app1
     ports:
       - "80:3000"
     depends_on:
       - backend
+    environment:
+      - BACKEND=backend
+    #volumes:
+    #  - "/Dark_Chain:/console"
   portals:
+    container_name: portals
     build: ./HealthCareBlockChainFrontEnd/
     command: npm start
-    volumes: 
-      - ./HealthCareBlockChainFrontEnd:/app2
     ports:
       - "81:3000"
     depends_on:
       - backend
-    
+    environment:
+      - BACKEND=backend

@@ -158,17 +158,17 @@ app.post('/rx/:ID', function(req, res){
            .then(function (r) {
                console.log("response ok");
                console.log("response", r.data);
-                res.send({response: "ok"});
+  //              res.send({response: "ok"});
             })
             .catch( function (err){
-                res.send({response: "not ok"});
+//                res.send({response: "not ok"});
                 console.log(err);
             });
 
         //console.log("Post Req: ", JSON.stringify(req.params));
         //console.log("Post Req:", JSON.stringify(req.body));
         //console.log("RX", rx);
-        //res.send({response: "ok"});
+        res.send({response: "ok"});
     
 });
 
@@ -253,6 +253,7 @@ app.get('/hack', function(req,res){
         blockchainstatus = true
     }
 });
+
 app.get('/doctorRX', function(req, res){
     rx.forEach((r)=>{
         axios.post('http://129.146.106.151:4001/bcsgw/rest/v1/transaction/query', {
