@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 services:
   backend:
@@ -32,6 +32,8 @@ services:
       - backend
     environment:
       - BACKEND=backend
+    links:
+      - "backend:backend"
     volumes:
       - "./portals/:/portals/"
       - "/portals/node_modules"
