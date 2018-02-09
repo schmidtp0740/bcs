@@ -11,7 +11,7 @@ services:
       - "./backend/:/backend"
   console:
     container_name: console
-    build: ./Dark_Chain/
+    build: ./console/
     command: npm start
     ports:
       - "80:3000"
@@ -23,7 +23,7 @@ services:
     #  - "/Dark_Chain:/console"
   portals:
     container_name: portals
-    build: ./HealthCareBlockChainFrontEnd/
+    build: ./portals/
     command: npm start
     ports:
       - "81:3000"

@@ -1,0 +1,48 @@
+// common:
+@import "./common";
+
+// containers:
+@import "../containers/app/app";
+
+// views:
+@import "../views/home/home";
+@import "../views/about/about";
+@import "../views/login/login";
+
+$blue: #283E56;
+$green: #307351;
+$grey:  #e8f1f5;
+$yellow: #D1B829;
+
+// components:
+.demo-infinite-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 600px;
+}
+.demo-loading {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+}
+
+.ant-select-lg{
+  height: 60px;
+  line-height: 58px !important;
+}
+
+.ant-select-selection.ant-select-selection--single{
+  height: 60px !important;
+  
+}
+
+.ant-select-selection__rendered{
+  line-height: 58px !important;
+}
+
+.ant-select-dropdown-menu-item-active{
+  background-color: $yellow !important;
+
+}
