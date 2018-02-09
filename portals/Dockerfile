@@ -1,12 +1,8 @@
-FROM node:8.2.1-alpine
+FROM node:8.9.4
 
-WORKDIR /backend
-
-RUN npm install -g nodemon@1.11.0
-
-COPY package.json /backend/package.json
-RUN npm install && npm ls
-RUN mv /backend/node_modules /node_modules
-COPY . /backend
+WORKDIR /portals
+COPY package.json /portals/package.json
+RUN npm install
+COPY . /portals
 
 CMD ["npm", "start"]
