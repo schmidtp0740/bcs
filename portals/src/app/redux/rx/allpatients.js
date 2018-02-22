@@ -6,8 +6,8 @@ import axios from 'axios';
 // 129.146.106.151:8080
 // const url = 'http://private-0a8629-ironbankbcsapidoc.apiary-mock.com/pd'
 
-//const url = 'http://129.146.106.151:8080/pd'
-const url = 'http://backend:8080/pd';
+const url = 'http://129.146.106.151:8080/pd'
+//const url = 'http://backend:8080/pd';
 //WHY ARE WE DOING THIS???
 
 //if you store the authorization key in localStorage of the browser it allows outside sites to see the authorization for the site.
