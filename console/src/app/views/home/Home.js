@@ -68,6 +68,13 @@ class Home extends PureComponent {
     return (
       <Layout>
         <Header>
+        <Row>
+            <Col span={12} offset={6}>
+          <h1 className="headerTitle">
+            Blockchain Console
+          </h1>
+          </Col>  
+          </Row>
         </Header>
         <Content >
           <Row>
@@ -76,7 +83,7 @@ class Home extends PureComponent {
                 showSearch
                 size={'large'}  
               style={{ width: '100%' }}
-              placeholder="Select a person"
+              placeholder="Select a medical professional"
               optionFilterProp="children"
               onChange={this.handleChange}
               onFocus={this.handleFocus}

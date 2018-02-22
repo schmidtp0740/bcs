@@ -148,22 +148,22 @@ app.post('/rx/:ID', function(req, res){
 
 
         // Go to next Doc in Folder
-        axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
-            "channel": "doctorpharmacist",
-            "chaincode": "file-trace",
-            "chaincodeVer": "v1",
-            "method": "newDocument",
-            "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
-           })
-           .then(function (r) {
-               console.log("response ok");
-               console.log("response", r.data);
-  //              res.send({response: "ok"});
-            })
-            .catch( function (err){
+//        axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
+//            "channel": "doctorpharmacist",
+//            "chaincode": "file-trace",
+//            "chaincodeVer": "v1",
+//            "method": "newDocument",
+//            "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
+//           })
+//           .then(function (r) {
+//               console.log("response ok");
+//               console.log("response", r.data);
+//               res.send({response: "ok"});
+//            })
+//            .catch( function (err){
 //                res.send({response: "not ok"});
-                console.log(err);
-            });
+//                console.log(err);
+//            });
 
         //console.log("Post Req: ", JSON.stringify(req.params));
         //console.log("Post Req:", JSON.stringify(req.body));
@@ -210,19 +210,19 @@ app.patch('/rx/:ID', function(req, res){
         TimeStamp: TimeStamp
     });
     console.log(args);
-    axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
-            "channel": "doctorpharmacist",
-            "chaincode": "file-trace",
-            "chaincodeVer": "v1",
-            "method": "modifyDocument",
-            "args": args
-           }).then((response) => {
-               console.log(response.data);
-            //res.send({response: "ok"});
-            }).catch( (err) => {
-                //res.send({response: "not ok"});
-                console.log(err);
-            });
+//    axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
+//            "channel": "doctorpharmacist",
+//            "chaincode": "file-trace",
+//            "chaincodeVer": "v1",
+//            "method": "modifyDocument",
+//            "args": args
+//           }).then((response) => {
+//               console.log(response.data);
+//            //res.send({response: "ok"});
+//            }).catch( (err) => {
+//                //res.send({response: "not ok"});
+//                console.log(err);
+//            });
     res.send({response: "ok"});
 });
 
