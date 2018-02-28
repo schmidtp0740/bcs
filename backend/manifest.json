@@ -1,0 +1,9 @@
+{
+	"runtime":{
+		"majorVersion": "6"
+	},
+	"command": "node app.js",
+	"release": {},
+	"notes": "backend application"
+}
+
