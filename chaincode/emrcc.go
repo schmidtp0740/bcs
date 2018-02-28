@@ -129,3 +129,5 @@ func (t *Chaincode) initEMR(stub shim.ChaincodeStubInterface, args []string) pee
 func (t *Chaincode) updateHB(stub shim.ChaincodeStubInterface, args []string) peer.Response {
 }
 
+func (t *Chaincode) getEMRHistory(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+}
