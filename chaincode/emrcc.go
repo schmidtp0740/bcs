@@ -112,13 +112,15 @@ func (t *Chaincode) initEMR(stub shim.ChaincodeStubInterface, args []string) pee
 		return shim.Error(err.Error())
 	}
 	
-	// == Save marble to state ==
+	// == Save EMR to state ==
 	err = stub.PutState(userId, emrJSONasBytes)
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 
-
+	// == EMR saved. Return success ==
+	fmt.Println("- end init EMR")
+	return shim.Success(nil)
 }
 
 
