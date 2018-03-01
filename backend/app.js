@@ -4,15 +4,18 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+
 const port = process.env.PORT || 8080;
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
 var blockchainstatus = true;
-const bcsQueryURL = 'http://';
-const bcsInvokeURL= 'http://';
+
 var RXint = 3;
 var rxlog = [];
+
 var persons = [
     {
         ID: "001",
@@ -33,6 +36,7 @@ var persons = [
         Phone: "123-123-1234"
     }
 ];
+
 var rx = [
     {
         RXID: "RX001",
@@ -146,28 +150,6 @@ app.post('/rx/:ID', function(req, res){
             TimeStamp: Timestamp
         });
 
-
-        // Go to next Doc in Folder
-//        axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
-//            "channel": "doctorpharmacist",
-//            "chaincode": "file-trace",
-//            "chaincodeVer": "v1",
-//            "method": "newDocument",
-//            "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
-//           })
-//           .then(function (r) {
-//               console.log("response ok");
-//               console.log("response", r.data);
-//               res.send({response: "ok"});
-//            })
-//            .catch( function (err){
-//                res.send({response: "not ok"});
-//                console.log(err);
-//            });
-
-        //console.log("Post Req: ", JSON.stringify(req.params));
-        //console.log("Post Req:", JSON.stringify(req.body));
-        //console.log("RX", rx);
         res.send({response: "ok"});
     
 });
@@ -209,20 +191,7 @@ app.patch('/rx/:ID', function(req, res){
         Status: Status,
         TimeStamp: TimeStamp
     });
-    console.log(args);
-//    axios.post('http://129.146.106.151:4002/bcsgw/rest/v1/transaction/invocation', {
-//            "channel": "doctorpharmacist",
-//            "chaincode": "file-trace",
-//            "chaincodeVer": "v1",
-//            "method": "modifyDocument",
-//            "args": args
-//           }).then((response) => {
-//               console.log(response.data);
-//            //res.send({response: "ok"});
-//            }).catch( (err) => {
-//                //res.send({response: "not ok"});
-//                console.log(err);
-//            });
+    
     res.send({response: "ok"});
 });
 
