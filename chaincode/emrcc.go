@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 	"strconv"
@@ -14,17 +13,18 @@ type Chaincode struct {
 }
 
 type emr struct {
+	ObjectType 	string `json:"docType"`
 	UserID		string `json:"userId"`
 	FirstName	string `json:"firstName"`
 	LastName	string `json:"lastName"`
-	heartBeat	string `json:"heartBeat"`
-	temp		string `json:"temp"`
+	HeartBeat	int `json:"heartBeat"`
+	Temp		int `json:"temp"`
 }
 
 // Main
 //=====
 func main(){
-        if err := shim.Start(new(EMR)); err != nil {
+        if err := shim.Start(new(Chaincode)); err != nil {
                 fmt.Printf("Error starting EMR chaincode: %s", err)
         }
 }
@@ -32,7 +32,7 @@ func main(){
 
 // Invoke - Initializes chaincode
 //===============================
-func (t *EMR) Init (stub shim.ChaincodeStubInterface) peer.Response {
+func (t *Chaincode) Init (stub shim.ChaincodeStubInterface) peer.Response {
 	return shim.Success(nil)
 }
 
@@ -47,7 +47,7 @@ func (t *Chaincode) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 		return t.initEMR(stub, args) //create a new EMR
 	} else if function == "updateHB" {
 		return t.updateHB(stub, args) // Change heartBeat of owner
-	{
+	}
 
 	// Return the result as success payload
 	fmt.Println("invoke did not find func: " + function) 
@@ -72,15 +72,15 @@ func (t *Chaincode) initEMR(stub shim.ChaincodeStubInterface, args []string) pee
 		return shim.Error("1st arguement must be a non-empty string")
 	} else if len(args[0]) <= 0 {
 		return shim.Error("2nd arguement must be a non-empty string")
-	} else if len(args[0] <= 0 {
+	} else if len(args[0]) <= 0 {
 		return shim.Error("3rd arguement must be an non-empty string")
-	} else if len(args[0] <= 0 {
+	} else if len(args[0]) <= 0 {
 		return shim.Error("4th arguement must be a non-empty string")
-	} else if len(args[0] <= 0 {
+	} else if len(args[0]) <= 0 {
 		return shim.Error("5th arguement must be a non-empty string")
 	}
 
-	userId, err := strconv.Atoi(args[0])
+	userId := args[0]
 	if err != nil {
 		return shim.Error("1st arguement must be a numeric string")
 	}
@@ -127,7 +127,9 @@ func (t *Chaincode) initEMR(stub shim.ChaincodeStubInterface, args []string) pee
 // Update
 //=======
 func (t *Chaincode) updateHB(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	return shim.Success(nil)
 }
 
 func (t *Chaincode) getEMRHistory(stub shim.ChaincodeStubInterface, args []string) peer.Response {
+	return shim.Success(nil)
 }
