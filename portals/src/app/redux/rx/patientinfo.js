@@ -2,8 +2,15 @@ import axios from 'axios';
 
 // const url = 'http://129.146.85.80:8000/';
 // http://private-0a8629-ironbankbcsapidoc.apiary-mock.com/pd/FirstName/LastName
+//
+// const server = process.env.SERVER
+//
+// const url = server+'/pd'
 
-const url = 'http://129.146.106.151:8080/pd'
+
+import envDATA from "../../../../env.json"
+
+const url = envDATA.SERVER + '/pd'
 
 //WHY ARE WE DOING THIS???
 
