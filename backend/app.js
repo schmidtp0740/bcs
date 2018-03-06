@@ -7,22 +7,42 @@ const cors = require('cors');
 const app = express();
 
 const port = process.env.PORT || 8080;
+
 if(!process.env.BLOCKCHAIN){
     console.log("BLOCKCHAIN is not defined in .env file");
     process.exit(1);
 }
 const blockchainURL = process.env.BLOCKCHAIN
+
 if(!process.env.DOCTOR_PORT){
     console.log("DOCTOR_PORT is not defined in .env file");
     process.exit(1);
 } 
 const doctorPort = process.env.DOCTOR_PORT
+
 if(!process.env.PHARMACIST_PORT){
     console.log("PHARMACIST_PORT is not defined in .env file");
     process.exit(1);
 }
 const pharmacistPort = process.env.PHARMACIST_PORT
 
+if(!process.env.CHANNEL){
+    console.log("CHANNEL is not defined in .env file");
+    process.exit(1);
+}
+const CHANNEL = process.env.CHANNEL
+
+if(!process.env.CHAINCODENAME){
+    console.log("CHAINCODENAME is not defined in .env file");
+    process.exit(1);
+}
+const CHAINCODENAME = process.env.CHAINCODENAME
+
+if(!process.env.CHAINCODEVER){
+    console.log("CHAINCODEVER is not defined in .env file");
+    process.exit(1);
+}
+const CHAINCODEVER = process.env.CHAINCODEVER
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -168,9 +188,9 @@ app.post('/rx/:ID', function(req, res){
         });
 
         axios.post(blockchainURL+":"+doctorPort+'/bcsgw/rest/v1/transaction/invocation',{
-            "channel": "doctorpharmacist",
-            "chaincode": "emrCC",
-            "chaincodeVer": "v1",
+            "channel": CHANNEL,
+            "chaincode": CHAINCODENAME,
+            "chaincodeVer": CHAINCODEVER,
             "method": "insertObject",
             "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
         })
@@ -225,9 +245,9 @@ app.patch('/rx/:ID', function(req, res){
         TimeStamp: TimeStamp
     });
     axios.post(blockchainURL+":"+pharmacistPort+'/bcsgw/rest/v1/transaction/invocation', {
-        "channel": "doctorpharmacist",
-        "chaincode": "emrCC",
-        "chaincodeVer": "v1",
+        "channel": CHANNEL,
+        "chaincode": CHAINCODENAME,
+        "chaincodeVer": CHAINCODEVER,
         "method":"modifyObject",
         "args": args
     })
