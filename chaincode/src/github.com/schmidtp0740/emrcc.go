@@ -35,7 +35,7 @@ type Chaincode struct {
 }
 
 // ===================================================================================
-// New, Modify, View, Sign record action
+// New, Modify action
 // ===================================================================================
 type objectLineageObj struct {
 	ObjectType   string `json:"objType"`      //objType is used to distinguish the various types of objects in state database
@@ -87,7 +87,7 @@ func (t *Chaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 }
 
 // ===========================================================
-// insertObject: create a new object lieange
+// insertObject: create a new object lineage
 // ===========================================================
 func (t *Chaincode) insertObject(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	//   0       		1      		2     	3		   4			5	       6			7			8
@@ -152,7 +152,7 @@ func (t *Chaincode) insertObject(stub shim.ChaincodeStubInterface, args []string
 }
 
 // ===========================================================
-// modifyObject: modifies existing object lieange
+// modifyObject: modifies existing object lineage
 // ===========================================================
 func (t *Chaincode) modifyObject(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	//   0       		1      		2     	3		   4			5	       6			7			8
@@ -293,7 +293,7 @@ func (t *Chaincode) objectLineageHelper(stub shim.ChaincodeStubInterface,
 }
 
 // ===========================================================================================
-// getObjectHistory returns the histotical state transitions for a given key of a record
+// getObjectHistory returns the historical state transitions for a given key of a record
 // ===========================================================================================
 func (t *Chaincode) getObjectHistory(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
