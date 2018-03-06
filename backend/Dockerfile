@@ -1,11 +1,9 @@
-FROM node:8.2.1-alpine
+FROM node:8.9.4
 
 WORKDIR /backend
-
-RUN npm install -g nodemon@1.11.0
-
+RUN npm install -g nodemon
 COPY package.json /backend/package.json
-RUN npm install && npm ls
+RUN npm install
 RUN mv /backend/node_modules /node_modules
 COPY . /backend
 

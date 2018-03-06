@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 
 services:
   backend:
@@ -8,7 +8,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "./backend/:/backend"
+      - "./backend/:/backend/"
   console:
     container_name: console
     build: ./console/
@@ -19,8 +19,9 @@ services:
       - backend
     environment:
       - BACKEND=backend
-    #volumes:
-    #  - "/Dark_Chain:/console"
+    volumes:
+      - "./console/:/console/"
+      - "/console/node_modules"
   portals:
     container_name: portals
     build: ./portals/
@@ -31,3 +32,8 @@ services:
       - backend
     environment:
       - BACKEND=backend
+    links:
+      - "backend:backend"
+    volumes:
+      - "./portals/:/portals/"
+      - "/portals/node_modules"

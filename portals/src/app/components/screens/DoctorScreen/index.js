@@ -313,19 +313,19 @@ class Doctor extends Component {
     console.log('value of patientnames: ', patientnames);
     return (
       <div>
-      <div style={{position:"absolute", left: "5vw"}}>
-        <i className="fas fa-user-md" style={{fontSize: "30vh"}}></i>
-      </div>
-      <div style={{position: "absolute", left: "20vw", top: "2vh", fontSize: "12vh", lineHeight: "13vh"}}>
-        <p>
-          Doctor
-        </p>
-        <p>
-          Portal
-        </p>
-      </div>
 
 
+      <Card title="Welcome to the Doctor Portal!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
+        <p>
+          Select a user and you will be able to see their chart and assign them prescriptions.
+        </p>
+        <p>
+          Prescriptions will be stored on the block chain and pharmacists will then be able to fill them.
+        </p>
+        <p>
+          Have fun!
+        </p>
+      </Card>
 
       {renderIf(this.state.receivedallpatients===true)(
         <div>
@@ -365,6 +365,7 @@ class Doctor extends Component {
 
         </div>
        )}
+
 
       {renderIf(this.state.receivedpatientinfo===true)(
         <FadeInRightDiv style={{position: "absolute", left: "77.5vw", right: "20vw", top: "2.5vh", width: "20vw", textAlign: "left",  overflow: "hidden", overflowY: "auto"}}>
@@ -441,9 +442,8 @@ class Doctor extends Component {
 
       {renderIf(this.state.receivedpatientrx===true)(
         <div>
-          <FadeInLeftBigDiv style={{position: "absolute", left: "2.5vw", top: "26.5vh", width: "72.5vw", height: "50vh", textAlign: "left", overflow: "hidden", overflowY: "auto"}}>
-            <Card title="PRESCRIPTIONS" bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56", marginBottom: "5vh"}}>
-
+          <FadeInLeftBigDiv style={{position: "absolute", left: "2.5vw", top: "26.5vh", width: "72.5vw", height: "50vh", textAlign: "left"}}>
+            <Card bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56"}}>
               <Card style={{fontWeight: "bold", fontSize:"1.5vh", marginBottom: "1vh", padding:"0vh", textAlign: "left", backgroundColor: "#283E56"}}>
                 <FlexRow>
                   <Flex1>
@@ -478,12 +478,17 @@ class Doctor extends Component {
                   </Flex1>
                 </FlexRow>
               </Card>
-                {scriptlist}
+            </Card>
+            <Card bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56", height: "30vh", overflow: "hidden", overflowY: "auto", paddingBottom: '2vh'}}>
+              {scriptlist}
             </Card>
           </FadeInLeftBigDiv>
 
-          <FadeInLeftBigDiv2 style={{position: "absolute", left: "2.5vw", top: "68vh", width: "72.5vw", height: "20vh", textAlign: "left"}}>
-            <Card title="ADD SCRIPT" bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56"}}>
+
+
+
+          <FadeInLeftBigDiv2 style={{position: "absolute", left: "2.5vw", top: "72vh", width: "72.5vw", height: "20vh", textAlign: "left"}}>
+            <Card bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56"}}>
               <FlexColumn>
                 <Flex1>
                   <Card style={{fontWeight: "bold", fontSize:"1vh", marginBottom: "1vh", padding:"0vh", textAlign: "left", backgroundColor: "#283E56"}}>
@@ -595,3 +600,16 @@ export default (connect(
     mapStateToProps, mapDispatchToProps)(
     Doctor
 ))
+
+
+// <div style={{position:"absolute", left: "5vw"}}>
+//   <i className="fas fa-user-md" style={{fontSize: "30vh"}}></i>
+// </div>
+// <div style={{position: "absolute", left: "20vw", top: "2vh", fontSize: "12vh", lineHeight: "13vh"}}>
+//   <p>
+//     Doctor
+//   </p>
+//   <p>
+//     Portal
+//   </p>
+// </div>

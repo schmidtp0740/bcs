@@ -62,7 +62,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use:  SPLIT_STYLE 
+        use:  SPLIT_STYLE
           ? ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
@@ -78,7 +78,7 @@ const config = {
       },
       {
         test: /\.less$/,
-        use:  SPLIT_STYLE 
+        use:  SPLIT_STYLE
         ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -96,7 +96,7 @@ const config = {
       },
       {
         test: /\.scss$/,
-        use:  SPLIT_STYLE 
+        use:  SPLIT_STYLE
         ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
@@ -128,16 +128,25 @@ const config = {
   },
   plugins: [
     setNodeEnv(),
+    setServerEnv(),
     new ExtractTextPlugin('app.styles.css'),
     new webpack.optimize.CommonsChunkPlugin({
       name:     'vendor',
-      filename: 'app.vendor.bundle.js' 
+      filename: 'app.vendor.bundle.js'
     })
   ]
 };
 /*
 * here using hoisting so don't use `var NAME = function()...`
 */
+function setServerEnv() {
+  return new webpack.DefinePlugin({
+    'process.env': {
+      'SERVER': JSON.stringify('http://129.146.106.151:8080')
+    }
+  });
+}
+
 function setNodeEnv() {
   return new webpack.DefinePlugin({
     'process.env': {

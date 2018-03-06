@@ -76,7 +76,8 @@ class Pharmacist extends Component {
       selectedFirstName: null,
       selectedLastName: null,
       displaygetpatientwarning: false,
-      rxinfo: []
+      rxinfo: [],
+      pillPrescribedArray: []
     }
   }
 
@@ -220,12 +221,19 @@ class Pharmacist extends Component {
               </Flex1>
               <Flex1>
                 <div key={i}>
-                  {renderIf(pill.Status==="prescribed")(
-                    <Button type="secondary" size="large" onClick={()=>this.handleFillScript(pill.ID, pill.RXID)}>
+                  {renderIf(pill.Status==="prescribed"&&!this.state.pillPrescribedArray.includes(i))(
+                    <Button type="secondary" size="large" onClick={()=>{
+                      this.handleFillScript(pill.ID, pill.RXID);
+                      var temparray = this.state.pillPrescribedArray;
+                      temparray.push(i)
+                      this.setState({
+                        pillPrescribedArray: temparray
+                      })
+                    }}>
                       Click to Fill
                     </Button>
                   )}
-                  {renderIf(pill.Status!="prescribed")(
+                  {renderIf(pill.Status!="prescribed"||this.state.pillPrescribedArray.includes(i))(
                     <div>
                       Already Filled
                     </div>
@@ -241,17 +249,17 @@ class Pharmacist extends Component {
     console.log('value of patientnames: ', patientnames);
     return (
       <div>
-      <div style={{position:"absolute", left: "5vw"}}>
-        <i className="fas fa-medkit" style={{fontSize: "30vh"}}></i>
-      </div>
-      <div style={{position: "absolute", left: "22vw", top: "2vh", fontSize: "12vh", lineHeight: "13vh"}}>
+      <Card title="Welcome to the Pharmacist Portal!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
         <p>
-          Pharmacist
+          Select a user and you will be able to see their chart and fill prescriptions that Doctors have assigned.
         </p>
         <p>
-          Portal
+          The blockchain will be modified to reflect the change in status.
         </p>
-      </div>
+        <p>
+          Have fun!
+        </p>
+      </Card>
 
 
 
