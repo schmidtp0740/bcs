@@ -1,3 +1,4 @@
+require('dotenv').config()
 
 const axios = require('axios');
 const bodyParser = require('body-parser');
@@ -6,6 +7,10 @@ const cors = require('cors');
 const app = express();
 
 const port = process.env.PORT || 8080;
+const blockchainURL = process.env.BLOCKCHAIN
+const doctorPort = process.env.DOCTOR_PORT
+const pharmacistPort = process.env.PHARMACIST_PORT
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -150,7 +155,23 @@ app.post('/rx/:ID', function(req, res){
             TimeStamp: Timestamp
         });
 
-        res.send({response: "ok"});
+        axios.post(blockchainURL+":"+doctorPort+'/bcsgw/rest/v1/transaction/invocation',{
+            "channel": "doctorpharmacist",
+            "chaincode": "emrCC",
+            "chaincodeVer": "v1",
+            "method": "insertObject",
+            "args": [RXID, patientID, FirstName, LastName, Timestamp, Doctor, Prescription, Refills, Status]
+        })
+        .then(function(r){
+            console.log("response ok");
+            console.log("response", r.data);
+            res.send({response: "ok"});
+        })
+        .catch(function (err){
+            res.send({response: "not ok"});
+            console.log(err);
+        });
+
     
 });
 
@@ -191,8 +212,21 @@ app.patch('/rx/:ID', function(req, res){
         Status: Status,
         TimeStamp: TimeStamp
     });
-    
-    res.send({response: "ok"});
+    axios.post(blockchainURL+":"+pharmacistPort+'/bcsgw/rest/v1/transaction/invocation', {
+        "channel": "doctorpharmacist",
+        "chaincode": "emrCC",
+        "chaincodeVer": "v1",
+        "method":"modifyObject",
+        "args": args
+    })
+    .then( (response) => {
+        console.log(response.data);
+        res.send({response: "ok"});
+    })
+    .catch( (err) => {
+        res.send({response: "not ok"});
+        console.log(err.response.data);
+    });
 });
 
 
