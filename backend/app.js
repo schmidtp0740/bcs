@@ -211,7 +211,8 @@ app.patch('/rx/:ID', function(req, res){
     const patientID = req.params.ID;
     const RXID = req.body.RXID; 
     const Status = req.body.Status;
-    const TimeStamp = req.body.TimeStamp;
+    const TimeStamp = Date.now();
+	console.log(TimeStamp);
     var args = [];
     rx = rx.map((r)=>{
         if(r.RXID == RXID){
@@ -223,7 +224,7 @@ app.patch('/rx/:ID', function(req, res){
             args.push(r.ID);
             args.push(r.FirstName);
             args.push(r.LastName);
-            args.push(r.TimeStamp);
+            args.push(TimeStamp);
             args.push(r.Doctor);
             args.push(r.Prescription);
             args.push(r.Refills.toString());
