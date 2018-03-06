@@ -7,8 +7,20 @@ const cors = require('cors');
 const app = express();
 
 const port = process.env.PORT || 8080;
+if(!process.env.BLOCKCHAIN){
+    console.log("BLOCKCHAIN is not defined in .env file");
+    process.exit(1);
+}
 const blockchainURL = process.env.BLOCKCHAIN
+if(!process.env.DOCTOR_PORT){
+    console.log("DOCTOR_PORT is not defined in .env file");
+    process.exit(1);
+} 
 const doctorPort = process.env.DOCTOR_PORT
+if(!process.env.PHARMACIST_PORT){
+    console.log("PHARMACIST_PORT is not defined in .env file");
+    process.exit(1);
+}
 const pharmacistPort = process.env.PHARMACIST_PORT
 
 
