@@ -197,14 +197,12 @@ app.post('/rx/:ID', function(req, res){
         .then(function(r){
             console.log("response ok");
             console.log("response", r.data);
-            res.send({response: "ok"});
         })
         .catch(function (err){
-            res.send({response: "not ok"});
-            console.log(err);
+            console.log(err.data);
         });
 
-    
+   res.send({response: "ok"});
 });
 
 app.patch('/rx/:ID', function(req, res){
@@ -254,12 +252,12 @@ app.patch('/rx/:ID', function(req, res){
     })
     .then( (response) => {
         console.log(response.data);
-        res.send({response: "ok"});
     })
     .catch( (err) => {
         res.send({response: "not ok"});
-        console.log(err.response.data);
+        console.log(err.data);
     });
+	res.send({response: "ok"});
 });
 
 
