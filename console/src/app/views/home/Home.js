@@ -71,29 +71,14 @@ class Home extends PureComponent {
         <Row>
             <Col span={12} offset={6}>
           <h1 className="headerTitle">
-            Blockchain Console
+            Prescription Console
           </h1>
           </Col>  
           </Row>
         </Header>
         <Content >
           <Row>
-            <Col span={12} offset={6}>
-            <Select
-                showSearch
-                size={'large'}  
-              style={{ width: '100%' }}
-              placeholder="Select a medical professional"
-              optionFilterProp="children"
-              onChange={this.handleChange}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-            >
-              <Option value="d">Doctor</Option>
-              <Option value="p">Pharmacist</Option>
-            </Select>
-            </Col>
+            
             <Col span={12} offset={6}>
             <BlockFeed />  
             </Col>  
