@@ -315,16 +315,14 @@ class Doctor extends Component {
       <div>
 
 
-      <Card title="Welcome to the Doctor Portal!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
+      <Card title="Welcome, Doctor Sloan!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
         <p>
-          Select a user and you will be able to see their chart and assign them prescriptions.
+          Select a patient and you will be able to see their chart and assign them prescriptions.
         </p>
         <p>
           Prescriptions will be stored on the block chain and pharmacists will then be able to fill them.
         </p>
-        <p>
-          Have fun!
-        </p>
+        
       </Card>
 
       {renderIf(this.state.receivedallpatients===true)(
@@ -349,7 +347,7 @@ class Doctor extends Component {
                 <Flex1><br/></Flex1>
                 <Flex1>
                   <Button type="secondary" size="large" onClick={()=>this.handleGetPatient()}>
-                    Get Records!
+                    Get Records
                   </Button>
                 </Flex1>
                 {renderIf(this.state.displaygetpatientwarning===true)(
@@ -520,23 +518,28 @@ class Doctor extends Component {
                   <Card>
                     <FlexRow>
                       <Flex1 style={{marginRight:"1vw"}}>
-                        <Input size="large" placeholder="DOCTOR"
-                        value={this.state.doctorinput}
-                        onChange={(e)=>{this.updateInputs("DOCTOR", e.target.value)}}/>
+                        <Input size="large" //placeholder="DOCTOR"
+                        value="Dr. Sloan" disabled //{this.state.doctorinput}
+                        //onChange={(e)=>{this.updateInputs("DOCTOR", e.target.value)}}
+                        />
                       </Flex1>
                       <Flex1 style={{marginRight:"1vw"}}>
-                        <Input size="large" placeholder="LICENSE"
-                        value={this.state.licenseinput}
-                        onChange={(e)=>{this.updateInputs("LICENSE", e.target.value)}}/>
+                        <Input size="large" //placeholder="LICENSE"
+                        value="PA EX 0000" disabled //{this.state.licenseinput}
+                        //onChange={(e)=>{this.updateInputs("LICENSE", e.target.value)}}
+                        />
                       </Flex1>
                       <Flex1 style={{marginRight:"1vw"}}>
                         <Input size="large" placeholder="SCRIPT"
-                        value={this.state.scriptinput} onChange={(e)=>{this.updateInputs("SCRIPT", e.target.value)}}/>
+                        value={this.state.scriptinput} 
+                        onChange={(e)=>{this.updateInputs("SCRIPT", e.target.value)}}
+                        />
                       </Flex1>
                       <Flex1 style={{marginRight:"1vw"}}>
                         <Input size="large" placeholder="REFILLS"
                         value={this.state.refillsinput}
-                        onChange={(e)=>{this.updateInputs("REFILLS", e.target.value)}}/>
+                        onChange={(e)=>{this.updateInputs("REFILLS", e.target.value)}}
+                        />
                       </Flex1>
                     </FlexRow>
                   </Card>
@@ -550,7 +553,7 @@ class Doctor extends Component {
       {renderIf(this.state.showsubmitinputbutton===true)(
         <FadeInRightDiv style={{position: "absolute", left: "77.5vw", right: "20vw", top: "80vh", width: "20vw", textAlign: "left"}}>
           <Button type="primary" size={"large"} onClick={()=>{this.submitScriptButton()}}>
-            Submit Script!
+            Prescribe
           </Button>
         </FadeInRightDiv>
       )}
@@ -560,11 +563,11 @@ class Doctor extends Component {
           title="Prescription Submitted!"
           footer={[
             <Button key="submit" type="primary" onClick={()=>this.setState({modalVisible: false, showsubmitinputbutton: false})}>
-              Yata!
+              Close
             </Button>,
           ]}
         >
-          <p>You have written a prescription!</p>
+          <p>Your prescription has been received and will be filled by the pharmacist</p>
         </Modal>
 
 
