@@ -81,7 +81,7 @@ var rx = [
         FirstName: "John",
         LastName: "Doe",
         DOB: "01/01/1981",
-        Prescription: "mitodel",
+        Prescription: "vicodin",
         Refills: 5,
         Doctor: "Dr. Sloan",
         License: "PA EX 0000",
