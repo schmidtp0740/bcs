@@ -184,9 +184,9 @@ class Doctor extends Component {
       LastName: this.state.patientinfoLastName,
       DOB: this.state.patientinfoDOB,
       Prescription: this.state.scriptinput,
-      Doctor: this.state.doctorinput,
+      Doctor: "Dr. Sloan",
       Refills: this.state.refillsinput,
-      License: this.state.licenseinput,
+      License: "PA EX 0000",
       Status: "prescribed",
       Timestamp: localTimestamp,
     };
@@ -225,7 +225,7 @@ class Doctor extends Component {
   }
 
   checkAllInputs(){
-    if (this.state.doctorinput!=""&&this.state.licenseinput!=""&&this.state.scriptinput!=""&&this.state.refillsinput!=""){
+    if (this.state.scriptinput!=""&&this.state.refillsinput!=""){
       this.setState({
         showsubmitinputbutton: true
       })
@@ -243,11 +243,11 @@ class Doctor extends Component {
       }, ()=>{this.checkAllInputs()})
     }else if(input==="DOCTOR"){
       this.setState({
-        doctorinput: value
+        doctorinput: "Dr. Sloan"
       }, ()=>{this.checkAllInputs()})
     }else if(input==="LICENSE"){
       this.setState({
-        licenseinput: value
+        licenseinput: "PA EX 0000"
       }, ()=>{this.checkAllInputs()})
     }else if(input==="SCRIPT"){
       this.setState({
