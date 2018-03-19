@@ -32,9 +32,9 @@ class BlockFeed extends React.Component {
           that.setState({ status: response.Status });
           if (that.state.status === "False") {
             notification.open({
-              message: 'System Infiltrated',
+              message: 'Blockchain Integrity Issue',
               duration: 0,
-              description: 'There was an attempt to manipulate the blockchain. \nAttempted By: ' + response.Blockchain + '\nPrescription ID: '+response.RXID,
+              description: 'There was an attempt to manipulate the blockchain. \nAttempt to add out of sequence block.\nAttempted By: ' + response.Blockchain + '\nPrescription ID: '+response.RXID,
               icon: <Icon type="warning" style={{ color: '#e8f1f5' }} />,
               style: {
                 backgroundColor: '#D1B829',
