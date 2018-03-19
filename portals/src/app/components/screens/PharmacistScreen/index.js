@@ -192,7 +192,7 @@ class Pharmacist extends Component {
     if (this.state.rxinfo.RX!=undefined){
       scriptlist = this.state.rxinfo.RX.map((pill, i)=>{
         return(
-          <Card style={{fontWeight: "bold", fontSize:"1.5vh", marginBottom: "1vh", padding:"0vh", textAlign: "left", backgroundColor: "#E8F1F5"}}>
+          <Card class='test' style={{fontWeight: "bold", fontSize:"1.5vh", marginBottom: "1vh", padding:"0vh", textAlign: "left", backgroundColor: "#E8F1F5"}}>
             <FlexRow>
               <Flex1>
                 <p key={i}>
@@ -249,7 +249,7 @@ class Pharmacist extends Component {
     console.log('value of patientnames: ', patientnames);
     return (
       <div>
-      <Card title="Welcome, Penelope Blake!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
+      <Card class="pharmacist" title="Welcome, Penelope Blake!" style={{position: "absolute", left: "2vw", height: "20.5vh", top: "2.5vh", width: "50vw", backgroundColor: "#1989AC", color: "#E8F1F5", fontSize: "2vh"}}>
         <p>
           Select a patient and you will be able to see their info and fill prescriptions that they have been given.
         </p>
