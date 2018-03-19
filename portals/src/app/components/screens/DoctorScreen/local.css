@@ -10,5 +10,13 @@
   background-color: #E8F1F5
 }
 .ant-modal-header{
-  background-color: #FFDE25
+  background-color: #D1B829;
+}
+.ant-card-head-title {
+  color:white;
+  font-size: 24px;
+  font-weight: bold;
+}
+.ant-card-head{
+  background-color: #D1B829;
 }
