@@ -21,20 +21,20 @@ class BlockFeed extends React.Component {
   getData = (callback) => {
     let that = this;
     getAllRxData().then(response => {
-      console.log(response['RX'].toString());
+      console.log(response['rx'].toString());
       
-      if (response['RX'] !== that.state.data) {
-        that.setState({ data: response['RX'].reverse() });
+      if (response['rx'] !== that.state.data) {
+        that.setState({ data: response['rx'].reverse() });
       }
 
       getStatus().then(response => {
-        if (response.Status !== that.state.status) {
-          that.setState({ status: response.Status });
+        if (response.status !== that.state.status) {
+          that.setState({ status: response.status });
           if (that.state.status === "False") {
             notification.open({
               message: 'Blockchain Integrity Issue',
               duration: 0,
-              description: 'There was an attempt to manipulate the blockchain. \nAttempt to add out of sequence block.\nAttempted By: ' + response.Blockchain + '\nPrescription ID: '+response.RXID,
+              description: 'There was an attempt to manipulate the blockchain. \nAttempt to add out of sequence block.\nAttempted By: ' + response.blockchain + '\nPrescription ID: '+response.rxid,
               icon: <Icon type="warning" style={{ color: '#e8f1f5' }} />,
               style: {
                 backgroundColor: '#D1B829',
@@ -89,13 +89,13 @@ class BlockFeed extends React.Component {
           <List
             dataSource={this.state.data}
             renderItem={item => (
-              <List.Item key={item.ID}>
+              <List.Item key={item.id}>
                 <List.Item.Meta
-                  avatar={<Avatar shape="square" size="large" style={item.Status === 'prescribed' ? { backgroundColor: '#D1B829'} : { backgroundColor: '#307351'}} icon={item.Status === 'prescribed' ? 'solution' : 'medicine-box'} />}
-                  title={item.RXID}
-                  description={'Timestamp: ' + (new Date(item.TimeStamp).toLocaleString())}
+                  avatar={<Avatar shape="square" size="large" style={item.status === 'prescribed' ? { backgroundColor: '#D1B829'} : { backgroundColor: '#307351'}} icon={item.status === 'prescribed' ? 'solution' : 'medicine-box'} />}
+                  title={item.rxid}
+                  description={'Timestamp: ' + (new Date(item.timestamp).toLocaleString())}
                 />
-                <div>{'Status: ' + item.Status}</div>
+                <div>{'Status: ' + item.status}</div>
               </List.Item>
             )}
           >
