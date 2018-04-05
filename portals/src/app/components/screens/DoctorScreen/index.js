@@ -21,7 +21,7 @@ import renderIf from 'render-if'
 import styled, { keyframes }  from 'styled-components';
 
 import {Link, Redirect} from "react-router-dom";
-import { getPATIENTINFO, getALLPATIENTS, getRXINFO, submitRX } from '../../../redux';
+import { getPATIENTINFO, getALLPATIENTS, getRXINFO, submitRX, getINSURANCE } from '../../../redux';
 const {Header, Content} = Layout;
 const FormItem = Form.Item;
 
@@ -87,7 +87,8 @@ class Doctor extends Component {
       scriptinput: "",
       refillsinput: "",
       showsubmitinputbutton: false,
-      modalVisible: false
+      modalVisible: false,
+      localinsurance: []
     }
   }
 
@@ -103,28 +104,31 @@ class Doctor extends Component {
 
   componentWillReceiveProps(nextProps){
     if(nextProps.patientinfo!=this.props.patientinfo){
+      console.log("********PATIENTINFO HAS CHANGED*********");
       this.setState({
-        patientinfoTitle: "Patient Name: " + nextProps.patientinfo.LastName + ", " + nextProps.patientinfo.FirstName,
-        patientinfoFirstName: nextProps.patientinfo.FirstName,
-        patientinfoLastName: nextProps.patientinfo.LastName,
-        patientinfoID: nextProps.patientinfo.ID,
-        patientinfoDOB: nextProps.patientinfo.DOB,
-        patientinfoAddress: nextProps.patientinfo.Address,
-        patientinfoEthnicity: nextProps.patientinfo.Ethnicity, //misspelled doy!
-        patientinfoPhone: nextProps.patientinfo.Phone,
+        patientinfoTitle: "Patient Name: " + nextProps.patientinfo.lastName + ", " + nextProps.patientinfo.firstName,
+        patientinfoFirstName: nextProps.patientinfo.firstName,
+        patientinfoLastName: nextProps.patientinfo.lastName,
+        patientinfoID: nextProps.patientinfo.id,
+        patientinfoDOB: nextProps.patientinfo.dob,
+        patientinfoAddress: nextProps.patientinfo.address,
+        patientinfoEthnicity: nextProps.patientinfo.ethnicity, //misspelled doy!
+        patientinfoPhone: nextProps.patientinfo.phone,
       }, ()=>{
         this.setState({
           receivedpatientinfo: true,
+        }, ()=>{
+          console.log('AFTER SETTING receivedpatientinfo AND VALUE: ', this.state.receivedpatientinfo);
         })
       })
       console.log('value of patientinfo after receiving props: ', nextProps.patientinfo);
-      if(nextProps.patientinfo.ID!=null){
+      if(nextProps.patientinfo.id!=null){
         // this.props.getrxinfo({id: nextProps.patientinfo.ID})
         console.log("8888888888");
-        console.log('value of nextProps id', nextProps.patientinfo.ID);
+        console.log('value of nextProps id', nextProps.patientinfo.id);
         console.log('value of state id',
         this.state.patientinfoID);
-        this.props.getrxinfo({id: nextProps.patientinfo.ID})
+        this.props.getrxinfo({id: nextProps.patientinfo.id})
       }
     }
     if(nextProps.allpatients!=this.props.allpatients){
@@ -132,10 +136,10 @@ class Doctor extends Component {
         receivedallpatients: true
       }, () => {
         this.setState({
-          allpatients: nextProps.allpatients.Persons
+          allpatients: nextProps.allpatients.persons
         })
       })
-      console.log('value of allpatients after receiving props: ', nextProps.allpatients.Persons);
+      console.log('value of allpatients after receiving props: ', nextProps.allpatients.persons);
     }
     if(nextProps.rxinfo!=this.props.rxinfo){
       this.setState({
@@ -151,7 +155,7 @@ class Doctor extends Component {
         // this.props.getpatientinfo({firstname: this.state.selectedFirstName, lastname: this.state.selectedLastName})
         // this.props.getrxinfo({id: nextProps.patientinfoID})
         // this.props.getrxinfo({id: nextProps.patientinfo.ID})
-        this.props.getrxinfo({id: nextProps.patientinfo.ID})
+        this.props.getrxinfo({id: nextProps.patientinfo.id})
         this.setState({
           modalVisible: true,
           rxidinput: "",
@@ -161,6 +165,15 @@ class Doctor extends Component {
           refillsinput: "",
         })
       }
+    }
+    if(nextProps.insurance!=this.props.insurance){
+      this.setState({
+        localinsurance: nextProps.insurance
+      }, ()=>{
+        console.log('**************');
+        console.log('after setting localInsurance and value: ', this.state.localinsurance);
+        console.log('**************');
+      })
     }
 
   }
@@ -180,23 +193,29 @@ class Doctor extends Component {
     var localTimestamp = Date.now()
     payload = {
       id: this.state.patientinfoID,
-      FirstName: this.state.patientinfoFirstName,
-      LastName: this.state.patientinfoLastName,
-      DOB: this.state.patientinfoDOB,
-      Prescription: this.state.scriptinput,
-      Doctor: "Dr. Sloan",
-      Refills: this.state.refillsinput,
-      License: "PA EX 0000",
-      Status: "prescribed",
-      Timestamp: localTimestamp,
+      firstName: this.state.patientinfoFirstName,
+      lastName: this.state.patientinfoLastName,
+      dob: this.state.patientinfoDOB,
+      prescription: this.state.scriptinput,
+      doctor: "Dr. Sloan",
+      refills: this.state.refillsinput,
+      license: "PA EX 0000",
+      status: "prescribed",
+      timestamp: localTimestamp,
+      insurance: {
+        company: this.state.localinsurance.company,
+        policyId: this.state.localinsurance.policyId,
+        expirationDate: this.state.localinsurance.expirationDate
+      }
     };
+
     console.log("&&&&&&&&&&&&&&&&");
     console.log("&&&&&&&&&&&&&&&&");
     console.log('value of payload ID ', payload.id);
     console.log("&&&&&&&&&&&&&&&&");
 
     console.log('value of payload: ', payload);
-    console.log('value of payload.FirstName: ', payload.FirstName);
+    console.log('value of payload.FirstName: ', payload.firstName);
     this.props.submitrx(payload)
     console.log("value of payload: ", payload);
 
@@ -208,6 +227,15 @@ class Doctor extends Component {
         requestpatientinfo: true
       }, ()=>{
         this.props.getpatientinfo({firstname: this.state.selectedFirstName, lastname: this.state.selectedLastName})
+        console.log("INSIDE handleGetPatient AND CALLING GETINSURANCE");
+        console.log("AND VALUE OF PATIENT_INFO ID: ", this.state.patientinfoID);
+        this.state.allpatients.forEach(patient=>{
+          if(patient.firstName===this.state.selectedFirstName&&patient.lastName===this.state.selectedLastName){
+            console.log('YATA found match for ID');
+            console.log("patient.id: ", patient.id);
+            this.props.getinsurance({id: patient.id});
+          }
+        })
       })
     }else{
       this.setState({
@@ -264,44 +292,44 @@ class Doctor extends Component {
     console.log('inside DoctorScreen');
     let patientnames;
     patientnames = this.state.allpatients.map(function(patient, i){
-      let patientFullName = patient.FirstName + " " + patient.LastName
+      let patientFullName = patient.firstName + " " + patient.lastName
       console.log('value of patientFullName: ', patientFullName);
       return(<Option value={patientFullName} key={i}>{patientFullName}</Option>);
     })
     let scriptlist;
-    if (this.state.rxinfo.RX!=undefined){
-      scriptlist = this.state.rxinfo.RX.map(function(pill, i){
+    if (this.state.rxinfo.rx!=undefined){
+      scriptlist = this.state.rxinfo.rx.map(function(pill, i){
         return(
           <Card style={{fontWeight: "bold", fontSize:"1.5vh", marginBottom: "1vh", padding:"0vh", textAlign: "left", backgroundColor: "#E8F1F5"}}>
             <FlexRow>
               <Flex1>
                 <p key={i}>
-                  {pill.RXID}
+                  {pill.rxid}
                 </p>
               </Flex1>
               <Flex1>
                 <p key={i}>
-                  {pill.Doctor}
+                  {pill.doctor}
                 </p>
               </Flex1>
               <Flex1>
                 <p key={i}>
-                  {pill.License}
+                  {pill.license}
                 </p>
               </Flex1>
               <Flex1>
                 <p key={i}>
-                  {pill.Prescription}
+                  {pill.prescription}
                 </p>
               </Flex1>
               <Flex1>
                 <p key={i}>
-                  {pill.Refills}
+                  {pill.refills}
                 </p>
               </Flex1>
               <Flex1>
                 <p key={i}>
-                  {pill.Status}
+                  {pill.status}
                 </p>
               </Flex1>
             </FlexRow>
@@ -322,7 +350,7 @@ class Doctor extends Component {
         <p>
           Prescriptions will be stored on the block chain and pharmacists will then be able to fill them.
         </p>
-        
+
       </Card>
 
       {renderIf(this.state.receivedallpatients===true)(
@@ -483,7 +511,21 @@ class Doctor extends Component {
           </FadeInLeftBigDiv>
 
 
-
+          <div style={{position: "absolute", right: "2.5vw", bottom: "2.5vh"}}>
+            <Card bordered={false} style={{ backgroundColor: "black", color: "white"}}>
+                <div>
+                  <p>
+                    Insurance Company: {this.state.localinsurance.company}
+                  </p>
+                  <p>
+                    Policy ID: {this.state.localinsurance.policyId}
+                  </p>
+                  <p>
+                    Expiration Date: {this.state.localinsurance.expirationDate}
+                  </p>
+                </div>
+            </Card>
+          </div>
 
           <FadeInLeftBigDiv2 style={{position: "absolute", left: "2.5vw", top: "72vh", width: "72.5vw", height: "20vh", textAlign: "left"}}>
             <Card bordered={false} style={{ backgroundColor: "#1989AC", color: "#283E56"}}>
@@ -531,7 +573,7 @@ class Doctor extends Component {
                       </Flex1>
                       <Flex1 style={{marginRight:"1vw"}}>
                         <Input size="large" placeholder="SCRIPT"
-                        value={this.state.scriptinput} 
+                        value={this.state.scriptinput}
                         onChange={(e)=>{this.updateInputs("SCRIPT", e.target.value)}}
                         />
                       </Flex1>
@@ -585,7 +627,8 @@ function mapDispatchToProps(dispatch) {
       getpatientinfo: (e)=>{dispatch(getPATIENTINFO(e))},
       getallpatients: ()=>{dispatch(getALLPATIENTS())},
       getrxinfo: (e)=>{dispatch(getRXINFO(e))},
-      submitrx: (e)=>{dispatch(submitRX(e))}
+      submitrx: (e)=>{dispatch(submitRX(e))},
+      getinsurance: (e)=>{dispatch(getINSURANCE(e))}
     })
 }
 
@@ -595,7 +638,8 @@ function mapStateToProps(state) {
       patientinfo: state.patientinfo,
       allpatients: state.allpatients,
       rxinfo: state.rxinfo,
-      submitrxreturn: state.submitrx
+      submitrxreturn: state.submitrx,
+      insurance: state.insurance
     })
 }
 

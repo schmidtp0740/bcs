@@ -262,6 +262,11 @@ class Entry extends Component {
             <Flex1>
               <br/>
             </Flex1>
+            <Flex1>
+              <Button type="secondary" size="large" onClick={()=>this.setState({redirect: "insurance"})}>
+                Insurance
+              </Button>
+            </Flex1>
           </FlexColumn>
         </Card>
         {renderIf(this.state.redirect==="doctor")(
@@ -272,6 +277,9 @@ class Entry extends Component {
         )}
         {renderIf(this.state.redirect==="iot")(
           <Redirect to='/iot' />
+        )}
+        {renderIf(this.state.redirect==="insurance")(
+          <Redirect to='/insurance' />
         )}
       </div>
     );
