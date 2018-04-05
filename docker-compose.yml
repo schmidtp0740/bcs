@@ -3,15 +3,12 @@ version: "2"
 services:
   backend:
     container_name: backend
-    build: ./backend/
-    command: nodemon -L
+    image: schmidtp0740/moei_backend:0.6
     ports:
-      - "8080:8080"
-    volumes:
-      - "./backend/:/backend/"
+      - "8080:8000"
   console:
     container_name: console
-    build: ./console/
+    image: schmidtp0740/moei_console:0.1
     command: npm start
     ports:
       - "80:3000"
@@ -19,12 +16,9 @@ services:
       - backend
     environment:
       - BACKEND=backend
-    volumes:
-      - "./console/:/console/"
-      - "/console/node_modules"
   portals:
     container_name: portals
-    build: ./portals/
+    image: schmidtp0740/moei_portals:0.1
     command: npm start
     ports:
       - "81:3000"
@@ -32,8 +26,3 @@ services:
       - backend
     environment:
       - BACKEND=backend
-    links:
-      - "backend:backend"
-    volumes:
-      - "./portals/:/portals/"
-      - "/portals/node_modules"

@@ -18,7 +18,7 @@ export async function getRxData(id) {
 }
 
 export async function getAllRxData() {
-  var nurl = url + "rx/";
+  var nurl = url + "rx";
   return axios
     .get(nurl)
     .then(function (response) {
@@ -32,7 +32,7 @@ export async function getAllRxData() {
 }
 
 export async function getStatus() {
-  var nurl = url + "bcs/";
+  var nurl = url + "bcs";
   return axios
     .get(nurl)
     .then(function (response) {
