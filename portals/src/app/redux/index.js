@@ -8,6 +8,7 @@ export * from './rx/rxinfo';
 export * from './rx/submitrx';
 export * from './rx/fillrx';
 export * from './rx/getiot';
+export * from './rx/insurance';
 // export * from './server/UserAdmin';
 //
 

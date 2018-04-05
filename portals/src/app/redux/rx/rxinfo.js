@@ -24,7 +24,11 @@ const url = envDATA.SERVER + '/rx'
 export const getRXINFO = (payload) => {
   return (dispatch) => {
     console.log('value of payload: ', payload);
-    var sendurl = url + "/" + payload.id
+    if(payload!=undefined){
+      var sendurl = url + "/" + payload.id;
+    }else{
+      var sendurl = url;
+    }
     console.log('value of sendurl: ', sendurl);
     axios.get(sendurl)
     .then((response)=>{

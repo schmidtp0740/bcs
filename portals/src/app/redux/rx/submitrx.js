@@ -40,16 +40,22 @@ export const submitRX = (data) => {
     console.log(typeof(data));
     console.log(typeof(data.FirstName));
     axios.post(sendurl, {
-      ID: data.id,
-      FirstName: data.FirstName,
-      LastName: data.LastName,
-      DOB: data.DOB,
-      Prescription: data.Prescription,
-      Refills: data.Refills,
-      Doctor: data.Doctor,
-      License: data.License,
-      Status: "prescribed",
-      Timestamp: data.Timestamp
+      id: data.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      dob: data.dob,
+      prescription: data.prescription,
+      refills: data.refills,
+      doctor: data.doctor,
+      license: data.license,
+      status: "prescribed",
+      timestamp: data.timestamp,
+      user: "Dr. Sloan",
+      insurance: {
+        company: data.insurance.company,
+        policyId: data.insurance.policyId,
+        expirationDate: data.insurance.expirationDate
+      }
     })
     .then((response)=>{
       console.log('inside response from login auth and response : ', response);

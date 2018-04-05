@@ -34,6 +34,7 @@ import Entry from './components/screens/SwitchEntryPoint';
 import Doctor from './components/screens/DoctorScreen';
 import Pharmacist from './components/screens/PharmacistScreen';
 import IoT from './components/screens/IoTScreen';
+import Insurance from './components/screens/Insurance';
 // import Test from './components/TestComponent';
 
 
@@ -57,6 +58,7 @@ class Root extends Component {
              <Route path='/pharmacist' component={Pharmacist} />
              <Route path='/doctor' component={Doctor} />
              <Route path='/iot' component={IoT} />
+             <Route path='/insurance' component={Insurance} />
             </div>
          </BrowserRouter>
       </Provider>

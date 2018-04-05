@@ -23,6 +23,7 @@ import rxinfo from './rxinfo'
 import submitrx from './submitrx'
 import fillrx from './fillrx'
 import iotinfo from './iotinfo'
+import insurance from './insurance'
 
 export default combineReducers({
   // userlogin,
@@ -34,5 +35,6 @@ export default combineReducers({
   allpatients,
   submitrx,
   fillrx,
-  iotinfo
+  iotinfo,
+  insurance
 })

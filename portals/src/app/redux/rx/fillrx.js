@@ -24,6 +24,11 @@ const url = envDATA.SERVER + '/rx'
 
 //HERE ARE THE AXIOS CALLS
 
+// "rxid": "RX001",
+// "status": "Filled",
+// "user": "Penelope Blake",
+// "timestamp": 1520354676
+
 export const fillRX = (payload) => {
   return (dispatch) => {
     console.log('value of payload: ', payload);
@@ -35,9 +40,10 @@ export const fillRX = (payload) => {
     console.log('value of payload.rxid: ', payload.rxid);
     console.log('^^^^^^^^^');
     axios.patch(sendurl,{
-      RXID: payload.rxid,
-      Status: "Filled",
-      Timestamp: Date.now()
+      rxid: payload.rxid,
+      status: "Filled",
+      timestamp: Date.now(),
+      user: "Penelope Blake"
     })
     .then((response)=>{
       console.log('inside response from login auth and response : ', response);
