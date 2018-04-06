@@ -30,7 +30,7 @@ class BlockFeed extends React.Component {
       getStatus().then(response => {
         if (response.status !== that.state.status) {
           that.setState({ status: response.status });
-          if (that.state.status === "False") {
+          if (that.state.status === "True") {
             notification.open({
               message: 'Blockchain Integrity Issue',
               duration: 0,

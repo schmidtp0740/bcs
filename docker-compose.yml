@@ -3,29 +3,37 @@ version: "2"
 services:
   backend:
     container_name: backend
-    image: schmidtp0740/moei_backend:0.1
+    image: schmidtp0740/moei_backend:0.2
     ports:
       - "8080:8000"
     environment:
-      - BACKEND=http://129.156.104.151:4001
-      - SOA=129.213.118.211
+      - URL=http://129.146.106.151:4001
+      - SOA= 
+     #- SOA=129.213.118.21
+      
   console:
     container_name: console
-    image: schmidtp0740/moei_console:0.2
+    image: schmidtp0740/moei_console:0.1
     command: npm start
     ports:
       - "80:3000"
     depends_on:
       - backend
     environment:
-      - BACKEND=backend
+      - BACKEND=129.146.106.151:8080
   portals:
     container_name: portals
-    image: schmidtp0740/moei_portals:0.1
+    image: schmidtp0740/moei_portals:0.2
     command: npm start
     ports:
       - "81:3000"
     depends_on:
       - backend
     environment:
-      - BACKEND=backend
+      - BACKEND=http://129.146.106.151:8080
+  iotConsole:
+    container_name: iot
+    image: schmidtp0740/moei_iot_console:0.1
+    command: npm start
+    ports:
+     - "82:3000"
