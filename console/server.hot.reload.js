@@ -10,7 +10,7 @@ const chalk         = require('chalk');
 
 const app       = express();
 const compiler  = webpack(config);
-
+const port = '3001'
 
 app.use(devMiddleware(compiler, {
   publicPath: config.output.publicPath,
@@ -23,14 +23,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, (err) => {
+app.listen(port, (err) => {
   if (err) {
     return console.error(err);
   }
   console.log(
     `
       =====================================================
-      -> Server (${chalk.bgBlue('Hot reload')}) 🏃 (running) on ${chalk.green('localhost')}:${chalk.green('3000')}
+      -> Server (${chalk.bgBlue('Hot reload')}) 🏃 (running) on ${chalk.green('localhost')}:${chalk.green(port)}
       =====================================================
     `
   );
