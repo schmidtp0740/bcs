@@ -38,9 +38,11 @@ export const fillRX = (payload) => {
     console.log('fillrx info: ', payload);
     console.log('value of payload.id ', payload.id);
     console.log('value of payload.rxid: ', payload.rxid);
+    console.log('value of payload.prescription: ', payload.prescription);
     console.log('^^^^^^^^^');
     axios.patch(sendurl,{
       rxid: payload.rxid,
+      prescription: payload.prescription,
       status: "Filled",
       timestamp: Date.now(),
       user: "Penelope Blake"

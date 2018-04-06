@@ -10,8 +10,10 @@ import {
   Layout,
   Select,
   Row,
+  Dropdown,
   Col,
-  Menu
+  Menu,
+  Item,
 } from 'antd';
 import {headStyles, cardStyles, contentStyles, medusa, layoutStyles} from '../../../style/MainStyles.js';
 import { connect } from 'react-redux'
@@ -20,7 +22,7 @@ import renderIf from 'render-if'
 import styled, { keyframes }  from 'styled-components';
 
 import {Link, Redirect} from "react-router-dom";
-import { getPATIENTINFO, getALLPATIENTS, getRXINFO, fillRX, getINSURANCE } from '../../../redux';
+import { getPATIENTINFO, getALLPATIENTS, getRXINFO, fillRX, getINSURANCE, updateRXINFO } from '../../../redux';
 const {Header, Content} = Layout;
 const FormItem = Form.Item;
 
@@ -56,6 +58,63 @@ const FlexRow = styled.div`
   text-align:center;
 `
 
+const MenuAlternatives = ({drug, alternatives, rxinfo, index, updaterxinfo, updateStateForRxInfo, updateStateForPrescription}) =>{
+  console.log('inside menu and drug: ', drug);
+  var matchIndex = null;
+  var altIndex = null;
+  var altCounter = 0;
+  alternatives.forEach(altArr=>{
+    var matchCounter = 0;
+    altArr.forEach(alt=>{
+      if(drug===alt){
+        console.log('found drug match!');
+        matchIndex = matchCounter;
+        altIndex = altCounter;
+      }
+      matchCounter++;
+    })
+    altCounter++;
+  })
+  if(matchIndex!=null){
+    var localArr = [];
+    var subAltArr = alternatives[altIndex]
+    var subCounter = 0;
+    subAltArr.forEach(alt=>{
+      if(subCounter!=matchIndex){
+        localArr.push(alt)
+      }
+      subCounter++;
+    })
+    return(
+      <div>
+          {
+            Array.from({ length: localArr.length }, (_, i) =>
+                        <div style={{backgroundColor:"black", color:"white", fontSize:"1.8vh", paddingLeft:"5%", paddingRight:"5%", cursor:"pointer"}} onClick={()=>{
+                          var sendIndex = i;
+                          var payload = rxinfo;
+                          payload.rx[index].prescription = localArr[i];
+                          updateStateForRxInfo(payload);
+                          updateStateForPrescription(payload.rx[index].prescription)
+                        }}>
+                          <p>
+                              {localArr[i]}
+                          </p>
+                        </div>
+                      )
+          }
+      </div>
+    )
+  }else{
+    return(
+      <div style={{backgroundColor:"black", color:"white", fontSize:"1.5vh", paddingLeft:"5%", paddingRight:"5%"}}>
+        <p>
+            No drug alternatives found
+        </p>
+      </div>
+    )
+  }
+}
+
 class Pharmacist extends Component {
   constructor() {
     super();
@@ -78,7 +137,13 @@ class Pharmacist extends Component {
       displaygetpatientwarning: false,
       rxinfo: [],
       pillPrescribedArray: [],
-      localinsurance: []
+      localinsurance: [],
+      prescription: null,
+      genericArray: [],
+      prescription: null,
+      fillId: null,
+      hitFill: false,
+      alternativeList: [["Acebutolol", "Atenolol", "Bisoprolol", "Carvedilol"], ["Fluticasone", "Budesonide", "Mometasone", "Fluticasone"]]
     }
   }
 
@@ -132,6 +197,13 @@ class Pharmacist extends Component {
       }, ()=>{
         this.forceUpdate();
         console.log("in componentWillReceiveProps and requestpatientrx: ", nextProps.rxinfo);
+        if(this.state.hitFill===true){
+          this.props.getrxinfo({id: fillId})
+          this.setState({
+            hitFill: false,
+            fillId: null
+          })
+        }
       })
     }
     if(nextProps.insurance!=this.props.insurance){
@@ -152,6 +224,18 @@ class Pharmacist extends Component {
       selectedFirstName: localNames[0],
       selectedLastName: localNames[1],
       displaygetpatientwarning: false
+    })
+  }
+
+  updateStateForRxInfo(state){
+    this.setState({
+      rxinfo: state
+    })
+  }
+
+  updateStateForPrescription(state){
+    this.setState({
+      prescription: state
     })
   }
 
@@ -178,9 +262,14 @@ class Pharmacist extends Component {
 
   handleFillScript(id, rxid){
     // console.log('script i value: ', value);
-    var payload = {id: id, rxid: rxid}
+    console.log("INSIDE HANDLEFILLSCRIPT");
+    console.log('value of this.state.prescription: ', this.state.prescription);
+    var payload = {id: id, rxid: rxid, prescription: this.state.prescription}
     this.props.putrx(payload)
-    this.props.getrxinfo({id: id})
+    this.setState({
+      fillId: id,
+      hitFill: true,
+    })
     // this.setState({
     //   requestpatientinfo: true
     // }, ()=>{
@@ -226,9 +315,23 @@ class Pharmacist extends Component {
                 </p>
               </Flex1>
               <Flex1>
-                <p key={i}>
-                  {pill.prescription}
-                </p>
+                {renderIf(pill.status==="prescribed"&&!this.state.pillPrescribedArray.includes(i))(
+                  <Dropdown overlay={<MenuAlternatives drug={pill.prescription} alternatives={this.state.alternativeList} rxinfo={this.state.rxinfo} updaterxinfo={this.props.updaterxinfo.bind(this)} index={i}
+                  updateStateForRxInfo={this.updateStateForRxInfo.bind(this)}
+                  updateStateForPrescription={(value)=>this.updateStateForPrescription(value)}
+                  />}>
+                    <p>
+                      {pill.prescription}
+                    </p>
+                  </Dropdown>
+                )}
+                {renderIf(pill.status!="prescribed"||this.state.pillPrescribedArray.includes(i))(
+                  <div>
+                    <p>
+                      {pill.prescription}
+                    </p>
+                  </div>
+                )}
               </Flex1>
               <Flex1>
                 <p key={i}>
@@ -272,7 +375,6 @@ class Pharmacist extends Component {
         <p>
           The blockchain will be modified to reflect the change in status.
         </p>
-
       </Card>
 
 
@@ -462,7 +564,8 @@ function mapDispatchToProps(dispatch) {
       getallpatients: ()=>{dispatch(getALLPATIENTS())},
       getrxinfo: (e)=>{dispatch(getRXINFO(e))},
       putrx: (e)=>{dispatch(fillRX(e))},
-      getinsurance: (e)=>{dispatch(getINSURANCE(e))}
+      getinsurance: (e)=>{dispatch(getINSURANCE(e))},
+      updaterxinfo: (e)=>{dispatch(updateRXINFO(e))}
     })
 }
 

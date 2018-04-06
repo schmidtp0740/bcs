@@ -59,3 +59,11 @@ export const AXIOSERRORRXINFO = (payload) => {
     data: payload
   }
 }
+
+export const updateRXINFO = (payload) => {
+  console.log('inside updateRXINFO and payload ', payload);
+  return{
+    type: 'UPDATE_RX',
+    data: payload
+  }
+}
