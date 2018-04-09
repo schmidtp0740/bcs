@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const url = 'http://129.146.106.151:8080/';
+console.log("backend  URL: ", window.location.hostname)
+const url = "http://"+ window.location.hostname + ':8080/';
 
 export async function getRxData(id) {
   var nurl = url + "rx/" + id;
