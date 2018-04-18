@@ -66,7 +66,7 @@ const MenuAlternatives = ({drug, alternatives, rxinfo, index, updaterxinfo, upda
   alternatives.forEach(altArr=>{
     var matchCounter = 0;
     altArr.forEach(alt=>{
-      if(drug===alt){
+      if(drug.toLowerCase()===alt.toLowerCase()){
         console.log('found drug match!');
         matchIndex = matchCounter;
         altIndex = altCounter;

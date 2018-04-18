@@ -70,7 +70,8 @@ const MenuAlternatives = ({drug, alternatives, rxinfo, index, updaterxinfo, upda
     altArr.forEach(alt=>{
       if(drug===alt){
         console.log('found drug match!');
-        matchIndex = matchCounter;
+        // matchIndex = matchCounter;
+        matchIndex = null;
         altIndex = altCounter;
       }
       matchCounter++;
@@ -91,12 +92,7 @@ const MenuAlternatives = ({drug, alternatives, rxinfo, index, updaterxinfo, upda
       <div>
           {
             Array.from({ length: localArr.length }, (_, i) =>
-                        <div style={{backgroundColor:"black", color:"white", fontSize:"1.8vh", paddingLeft:"5%", paddingRight:"5%", cursor:"pointer"}} onClick={()=>{
-                          var sendIndex = i;
-                          var payload = rxinfo;
-                          payload.rx[index].prescription = localArr[i];
-                          updateStateForRxInfo(payload);
-                        }}>
+                        <div style={{backgroundColor:"black", color:"white", fontSize:"1.8vh", paddingLeft:"5%", paddingRight:"5%", cursor:"pointer"}} >
                           <p>
                               {localArr[i]}
                           </p>
@@ -107,11 +103,7 @@ const MenuAlternatives = ({drug, alternatives, rxinfo, index, updaterxinfo, upda
     )
   }else{
     return(
-      <div style={{backgroundColor:"black", color:"white", fontSize:"1.5vh", paddingLeft:"5%", paddingRight:"5%"}}>
-        <p>
-            No drug alternatives found
-        </p>
-      </div>
+      <div></div>
     )
   }
 }
